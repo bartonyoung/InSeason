@@ -1,0 +1,48 @@
+{
+  "name": "inseason",
+  "version": "1.0.0",
+  "description": "A Weather app for climbing destinations using React and Leaflet maps.",
+  "main": "./App.jsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bundle": "webpack --progress --colors",
+    "dev": "webpack-dev-server --inline --hot --progress --colors --host 0.0.0.0 --port 3000 --mode development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bartonyoung/InSeason.git"
+  },
+  "author": "Barton Young",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bartonyoung/InSeason/issues"
+  },
+  "homepage": "https://github.com/bartonyoung/InSeason#readme",
+  "dependencies": {
+    "leaflet": "^1.3.1",
+    "react": "^16.2.0",
+    "react-addons-shallow-compare": "^15.6.2",
+    "react-dom": "^16.2.0",
+    "react-leaflet": "^1.8.2",
+    "react-leaflet-control": "^1.4.1"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-hmre": "^1.1.1",
+    "eslint": "^4.18.2",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-loader": "^2.0.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0",
+    "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.10",
+    "webpack-dev-server": "^3.1.0"
+  }
+}

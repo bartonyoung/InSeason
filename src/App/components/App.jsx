@@ -1,43 +1,45 @@
-import React, { Component } from 'react';
-import { Map, TileLayer, GeoJSON } from 'react-leaflet';
-// import Control from 'react-leaflet-control';
-import mapKey from '../../../keys';
-import statesData from '../../../data/us_states';
+import React, { PureComponent } from 'react';
+import { PropTypes } from 'prop-types';
+import { WeatherMap } from './WeatherMap';
 
-const terrainMap = `https://api.tiles.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}.png?access_token=${mapKey}`;
-const mapBoxAttr = 'Map tiles by <a href="http://mapbox.com">MapBox</a>';
-const mapCenter = [37.744, -119.599];
-const zoomLevel = 6;
-
-class App extends Component {
+class App extends PureComponent {
   constructor() {
     super();
 
     this.state = {
+      selectedState: null,
     };
+  }
+
+  handleChange = (event) => {
+    this.setState({ selectedState: event.target.value }, () => { console.log('handlechange', this.state); });
   }
 
 
   render() {
-    function showCA(feature) {
-      return feature.properties.name === 'California';
-    }
-
+    console.log('in the render', this.state.selectedState);
     return (
       <div>
-        <Map
-          center={mapCenter}
-          zoom={zoomLevel}
-        >
-          <TileLayer
-            attribution={mapBoxAttr}
-            url={terrainMap}
-          />
-          <GeoJSON data={statesData} filter={showCA} />
-        </Map>
+        <div>
+          <form>
+            Select a state:
+            <select id="state-selector" onChange={this.handleChange}>
+              <option value="all" defaultValue="selected">Show all</option>
+              <option value="California">California</option>
+              <option value="Wyoming">Wyoming</option>
+            </select>
+          </form>
+        </div>
+        <WeatherMap
+          selectedState={this.state.selectedState}
+          statesData={this.props.statesData}
+        />
       </div>
     );
   }
 }
 
+App.propTypes = {
+  statesData: PropTypes.object.isRequired,
+};
 export default App;

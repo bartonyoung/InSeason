@@ -8,16 +8,38 @@ class App extends PureComponent {
 
     this.state = {
       selectedState: null,
+      mapCenter: [39.8283, -98.5795],
+      zoomLevel: 3.75,
     };
   }
 
+  getStateData = (selectedState) => {
+    const states = this.props.statesData.features;
+    const state = states.find((obj) => {
+      if (!selectedState) {
+        return null;
+      } else if (obj.properties.name === selectedState) {
+        return obj;
+      }
+    });
+    console.log(state);
+    return state;
+  }
+
   handleChange = (event) => {
-    this.setState({ selectedState: event.target.value }, () => { console.log('handlechange', this.state); });
+    const stateName = event.target.value;
+    console.log(stateName);
+    const selectedState = this.getStateData(stateName);
+    console.log(selectedState);
+    this.setState({
+      selectedState,
+      zoomLevel: selectedState ? 6 : 3.75,
+      mapCenter: selectedState ? selectedState.properties.mapCenter : [39.8283, -98.5795],
+    });
   }
 
 
   render() {
-    console.log('in the render', this.state.selectedState);
     return (
       <div>
         <div>
@@ -31,6 +53,8 @@ class App extends PureComponent {
           </form>
         </div>
         <WeatherMap
+          mapCenter={this.state.mapCenter}
+          zoomLevel={this.state.zoomLevel}
           selectedState={this.state.selectedState}
           statesData={this.props.statesData}
         />

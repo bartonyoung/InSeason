@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM, { render as renderChild } from 'react-dom';
 import { PropTypes } from 'prop-types';
 import { Map, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
 // import Control from 'react-leaflet-control';
@@ -8,20 +9,33 @@ const terrainMap = `https://api.tiles.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}.
 const mapBoxAttr = 'Map tiles by <a href="http://mapbox.com">MapBox</a>';
 
 export class WeatherMap extends Component {
+  constructor() {
+    super();
+
+    this.markers = [];
+  }
+
+  handleMouseOver = (index, area) => {
+    // this.markers[index].leafletElement
+    //   .bindPopup(`<div class="flex"><p><strong>${area.name}</strong></p><p>${area.description}</p><a href="">More...</a></div>`)
+    //   .openPopup();
+    const markerElement = ReactDOM.findDOMNode(this.markers[index].leafletElement);
+
+    renderChild(<Popup />, markerElement);
+  };
+
   showToolTips = () => {
     const { selectedState } = this.props;
 
     if (selectedState && selectedState.properties.climbingAreas) {
-      return selectedState.properties.climbingAreas.map((area) => (
+      return selectedState.properties.climbingAreas.map((area, index) => (
         <Marker
           key={`marker-${area.name}`}
+          ref={(ref) => { this.markers[index] = ref; }}
           position={area.location}
-          title={area.name}
-        >
-          <Popup>
-            <div>{area.name}</div>
-          </Popup>
-        </Marker>
+          onMouseOver={() => this.handleMouseOver(index, area)}
+          onFocus
+        />
       ));
     }
     return (null);

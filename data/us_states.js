@@ -23,14 +23,17 @@ const statesData = {
           {
             name: 'Yosemite Valley',
             location: [37.7387871, -119.6701347],
+            description: 'The premier big wall destination in the world.',
           },
           {
             name: 'The Needles',
             location: [36.121, -118.504],
+            description: 'Concentrated granite crack climbing in a backcountry setting',
           },
           {
             name: 'Donner Pass',
             location: [39.33, -120.308],
+            description: 'Very accesible granite cliffs on a high mountain pass.',
           }, 
         ],
         density: 241.7,

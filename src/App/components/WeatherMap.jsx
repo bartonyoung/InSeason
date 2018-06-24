@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { Map, TileLayer, GeoJSON, Marker, Tooltip } from 'react-leaflet';
+import { Map, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
 // import Control from 'react-leaflet-control';
 import mapKey from '../../../keys';
 
@@ -12,19 +12,25 @@ export class WeatherMap extends Component {
     const { selectedState } = this.props;
 
     if (selectedState && selectedState.properties.climbingAreas) {
-      return selectedState.properties.climbingAreas.map((area, index) => (
-        <Marker key={`marker-${index}`} position={area.location}>
-          <Tooltip>
+      return selectedState.properties.climbingAreas.map((area) => (
+        <Marker
+          key={`marker-${area.name}`}
+          position={area.location}
+          title={area.name}
+        >
+          <Popup>
             <div>{area.name}</div>
-          </Tooltip>
+          </Popup>
         </Marker>
       ));
     }
     return (null);
   }
 
-  showSelectedState = (feature) =>
-    this.props.selectedState !== null && feature.properties.name === this.props.selectedState.properties.name;
+  showSelectedState = (feature) => {
+    const state = this.props.selectedState !== null && feature.properties.name === this.props.selectedState.properties.name;
+    return state;
+  }
 
   handleRef = (ref) => {
     this.leafletMap = ref;
@@ -32,7 +38,7 @@ export class WeatherMap extends Component {
 
   render() {
     const { mapCenter, zoomLevel, selectedState } = this.props;
-    const name = selectedState !== null ? selectedState.name : 'all';
+    const name = selectedState !== null ? selectedState.properties.name : 'all';
     return (
       <div>
         <Map

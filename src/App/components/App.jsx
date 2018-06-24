@@ -16,21 +16,19 @@ class App extends PureComponent {
   getStateData = (selectedState) => {
     const states = this.props.statesData.features;
     const state = states.find((obj) => {
-      if (!selectedState) {
-        return null;
-      } else if (obj.properties.name === selectedState) {
+      if (obj.properties.name === selectedState) {
         return obj;
       }
+      return null;
     });
-    console.log(state);
+
     return state;
   }
 
   handleChange = (event) => {
     const stateName = event.target.value;
-    console.log(stateName);
     const selectedState = this.getStateData(stateName);
-    console.log(selectedState);
+
     this.setState({
       selectedState,
       zoomLevel: selectedState ? 6 : 3.75,
@@ -53,6 +51,7 @@ class App extends PureComponent {
           </form>
         </div>
         <WeatherMap
+          key={this.state.selectedState}
           mapCenter={this.state.mapCenter}
           zoomLevel={this.state.zoomLevel}
           selectedState={this.state.selectedState}

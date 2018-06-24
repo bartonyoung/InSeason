@@ -29,4 +29,5 @@ module.exports = {
       index: '/',
     },
   },
+  devtool: 'source-map',
 };

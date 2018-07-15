@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM, { render as renderChild } from 'react-dom';
 import { PropTypes } from 'prop-types';
 import { Map, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
-// import Control from 'react-leaflet-control';
 import mapKey from '../../../keys';
 
 const terrainMap = `https://api.tiles.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}.png?access_token=${mapKey}`;
@@ -15,27 +13,36 @@ export class WeatherMap extends Component {
     this.markers = [];
   }
 
-  handleMouseOver = (index, area) => {
-    // this.markers[index].leafletElement
-    //   .bindPopup(`<div class="flex"><p><strong>${area.name}</strong></p><p>${area.description}</p><a href="">More...</a></div>`)
-    //   .openPopup();
-    const markerElement = ReactDOM.findDOMNode(this.markers[index].leafletElement);
 
-    renderChild(<Popup />, markerElement);
+  handleMouseOver = (index, area) => {
+    const content = this.popUp(area);
+
+    this.markers[index].leafletElement
+      .bindPopup(content)
+      .openPopup();
   };
 
-  showToolTips = () => {
+  popupData = () => (
+    <p>This is the data</p>
+  );
+
+  renderMarkers = () => {
     const { selectedState } = this.props;
 
     if (selectedState && selectedState.properties.climbingAreas) {
       return selectedState.properties.climbingAreas.map((area, index) => (
         <Marker
+          title={area.name}
           key={`marker-${area.name}`}
           ref={(ref) => { this.markers[index] = ref; }}
           position={area.location}
-          onMouseOver={() => this.handleMouseOver(index, area)}
+          onBlur
           onFocus
-        />
+        >
+          <Popup>
+            {this.popupData()}
+          </Popup>
+        </Marker>
       ));
     }
     return (null);
@@ -71,7 +78,7 @@ export class WeatherMap extends Component {
             filter={this.showSelectedState}
           />
           {
-            this.showToolTips()
+            this.renderMarkers()
           }
         </Map>
       </div>

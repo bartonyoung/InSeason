@@ -1,17 +1,31 @@
 import React, { PureComponent } from 'react';
 import { PropTypes } from 'prop-types';
 import { WeatherMap } from './WeatherMap';
+import NavBar from './NavBar';
+import WeatherPanel from './WeatherPanel';
+
+const componentStyles = {
+  appContainer: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  contentContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: '100%',
+    padding: '15px',
+    border: 'blue solid 1px',
+  },
+};
 
 class App extends PureComponent {
-  constructor() {
-    super();
-
-    this.state = {
-      selectedState: null,
-      mapCenter: [39.8283, -98.5795],
-      zoomLevel: 3.75,
-    };
-  }
+  state = {
+    selectedState: null,
+    mapCenter: [39.8283, -98.5795],
+    zoomLevel: 3.75,
+  };
 
   getStateData = (selectedState) => {
     const states = this.props.statesData.features;
@@ -39,24 +53,28 @@ class App extends PureComponent {
 
   render() {
     return (
-      <div>
-        <div>
-          <form>
-            Select a state:
-            <select id="state-selector" onChange={this.handleChange}>
-              <option value="all" defaultValue="selected">Show all</option>
-              <option value="California">California</option>
-              <option value="Wyoming">Wyoming</option>
-            </select>
-          </form>
+      <div style={componentStyles.appContainer}>
+        <NavBar />
+        <div style={componentStyles.contentContainer}>
+          {/* <div>
+            <form>
+              Select a state:
+              <select id="state-selector" onChange={this.handleChange}>
+                <option value="all" defaultValue="selected">Show all</option>
+                <option value="California">California</option>
+                <option value="Wyoming">Wyoming</option>
+              </select>
+            </form>
+          </div> */}
+          <WeatherMap
+            key={this.state.selectedState}
+            mapCenter={this.state.mapCenter}
+            zoomLevel={this.state.zoomLevel}
+            selectedState={this.state.selectedState}
+            statesData={this.props.statesData}
+          />
+          <WeatherPanel />
         </div>
-        <WeatherMap
-          key={this.state.selectedState}
-          mapCenter={this.state.mapCenter}
-          zoomLevel={this.state.zoomLevel}
-          selectedState={this.state.selectedState}
-          statesData={this.props.statesData}
-        />
       </div>
     );
   }

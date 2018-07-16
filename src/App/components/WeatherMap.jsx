@@ -5,14 +5,15 @@ import mapKey from '../../../keys';
 
 const terrainMap = `https://api.tiles.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}.png?access_token=${mapKey}`;
 const mapBoxAttr = 'Map tiles by <a href="http://mapbox.com">MapBox</a>';
+const componentStyles = {
+  mapStyles: {
+    border: '1px solid red',
+  },
+};
+
 
 export class WeatherMap extends Component {
-  constructor() {
-    super();
-
-    this.markers = [];
-  }
-
+  markers = [];
 
   handleMouseOver = (index, area) => {
     const content = this.popUp(area);
@@ -61,7 +62,7 @@ export class WeatherMap extends Component {
     const { mapCenter, zoomLevel, selectedState } = this.props;
     const name = selectedState !== null ? selectedState.properties.name : 'all';
     return (
-      <div>
+      <div style={componentStyles.mapStyles}>
         <Map
           ref={this.handleRef}
           center={mapCenter}

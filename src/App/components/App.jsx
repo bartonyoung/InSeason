@@ -12,7 +12,6 @@ const componentStyles = {
   },
   contentContainer: {
     display: 'flex',
-    flexDirection: 'row',
     alignItems: 'center',
     height: '100%',
     padding: '15px',

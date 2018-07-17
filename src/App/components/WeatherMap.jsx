@@ -8,6 +8,8 @@ const mapBoxAttr = 'Map tiles by <a href="http://mapbox.com">MapBox</a>';
 const componentStyles = {
   mapStyles: {
     border: '1px solid red',
+    height: '100%',
+    flexGrow: 2,
   },
 };
 

@@ -4,18 +4,68 @@ import WeatherItem from './WeatherItem';
 
 const componentStyles = {
   panelContainer: {
-    display: 'flex',
-    flexDirection: 'column',
+    // display: 'flex',
     border: '1px solid green',
+    // justifyContent: 'space-between',
+    height: '100%',
+    width: '50%',
+    // flexGrow: '1',
+    // marginLeft: '15px',
+    paddingLeft: '15px',
+    // flexWrap: 'wrap',
+    // overflow: 'scroll'
+  },
+  panelWrapper: {
+    display: 'flex',
+    border: '1px solid red',
     justifyContent: 'space-between',
     height: '100%',
+    width: '100%',
     flexGrow: '1',
-    marginLeft: '15px',
-    padding: '15px',
+    // margin: '15px',
+    // padding: '15px',
+    flexWrap: 'wrap',
+    overflow: 'scroll'
   },
 };
 
 const testWeatherData = [
+  {
+    day: 'Monday',
+    hi: '72',
+    low: '60',
+    description: 'partly cloudy',
+  },
+  {
+    day: 'Monday',
+    hi: '72',
+    low: '60',
+    description: 'partly cloudy',
+  },
+  {
+    day: 'Monday',
+    hi: '72',
+    low: '60',
+    description: 'partly cloudy',
+  },
+  {
+    day: 'Monday',
+    hi: '72',
+    low: '60',
+    description: 'partly cloudy',
+  },
+  {
+    day: 'Monday',
+    hi: '72',
+    low: '60',
+    description: 'partly cloudy',
+  },
+  {
+    day: 'Monday',
+    hi: '72',
+    low: '60',
+    description: 'partly cloudy',
+  },
   {
     day: 'Monday',
     hi: '72',
@@ -50,13 +100,15 @@ const testWeatherData = [
 
 class WeatherPanel extends Component {
   renderWeatherItems = (weatherData) =>
-    weatherData.map(data =>
-      <WeatherItem {...data} />);
+    weatherData.map((data, index) =>
+      <WeatherItem data={data} index={index} />);
 
   render() {
     return (
       <div style={componentStyles.panelContainer}>
-        {this.renderWeatherItems(testWeatherData)}
+        <div style={componentStyles.panelWrapper}>
+          {this.renderWeatherItems(testWeatherData)}
+        </div>
       </div>
     );
   }

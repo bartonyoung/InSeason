@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { Map, TileLayer, GeoJSON, Marker, Popup } from 'react-leaflet';
-import mapKey from '../../../keys';
+import { Map, TileLayer, GeoJSON, Marker, Popup, Tooltip } from 'react-leaflet';
+import { mapKey } from '../../../keys';
 
 const terrainMap = `https://api.tiles.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}.png?access_token=${mapKey}`;
 const mapBoxAttr = 'Map tiles by <a href="http://mapbox.com">MapBox</a>';
@@ -9,7 +9,8 @@ const componentStyles = {
   mapStyles: {
     border: '1px solid red',
     height: '100%',
-    flexGrow: 2,
+    // flexGrow: 1,
+    width: '50%',
   },
 };
 
@@ -35,13 +36,16 @@ export class WeatherMap extends Component {
     if (selectedState && selectedState.properties.climbingAreas) {
       return selectedState.properties.climbingAreas.map((area, index) => (
         <Marker
-          title={area.name}
+          // title={area.name}
           key={`marker-${area.name}`}
           ref={(ref) => { this.markers[index] = ref; }}
           position={area.location}
           onBlur
           onFocus
         >
+          <Tooltip permanent>
+            <span>{area.name}</span>
+          </Tooltip>
           <Popup>
             {this.popupData()}
           </Popup>

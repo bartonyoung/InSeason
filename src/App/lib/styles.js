@@ -1,10 +1,9 @@
 const colors = {
-  // Build.com theme colors
-  primary: '#00A499',
-  primaryLight: '#CCEEEC',
-  primaryDark: '#018F85',
-  secondary: '#63666A',
-  accent: '#D45D00',
+  // primary: '#00A499',
+  // primaryLight: '#CCEEEC',
+  // primaryDark: '#018F85',
+  // secondary: '#63666A',
+  // accent: '#D45D00',
   grey: '#D0D3D4',
   greyLight: '#EBEDEF',
   greyDark: '#B1B2B4',
@@ -14,9 +13,8 @@ const colors = {
   error: '#A94442',
   translucentWhite: 'rgba(255,255,255,0.8)',
   none: 'transparent',
-  // other colors
-  headerBarBackground: '#f0f0f0',
-  facebookBlue: '#2C4388',
+  // headerBarBackground: '#f0f0f0',
+  // facebookBlue: '#2C4388',
 };
 
 const measurements = {

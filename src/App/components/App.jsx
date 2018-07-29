@@ -29,10 +29,6 @@ class App extends PureComponent {
     error: null,
   };
 
-  componentDidMount() {
-
-  }
-
   getStateData = (selectedState) => {
     const usStates = this.props.statesData.features;
     const foundState = usStates.find((obj) => {
@@ -52,6 +48,7 @@ class App extends PureComponent {
     // TODO: handle errors appropriately
     //   .catch(error => this.setState({ error }));
     const weatherData = await fetchWeatherData(lat, lon, duration);
+    console.log(weatherData)
     return weatherData;
   };
 
@@ -88,6 +85,7 @@ class App extends PureComponent {
             zoomLevel={this.state.zoomLevel}
             selectedState={this.state.selectedState}
             statesData={this.props.statesData}
+            getWeatherData={this.getWeatherData}
           />
           <WeatherPanel />
         </div>

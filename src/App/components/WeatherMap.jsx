@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { Map, TileLayer, GeoJSON, Marker, Popup, Tooltip } from 'react-leaflet';
+import { CustomMarker as Marker } from '../components/Marker';
+import { 
+  Map, 
+  TileLayer, 
+  GeoJSON, 
+  // Marker, 
+  Popup, 
+  // Tooltip 
+} from 'react-leaflet';
 import { mapKey } from '../../../keys';
 
 const terrainMap = `https://api.tiles.mapbox.com/v4/mapbox.outdoors/{z}/{x}/{y}.png?access_token=${mapKey}`;
@@ -18,17 +26,19 @@ const componentStyles = {
 export class WeatherMap extends Component {
   markers = [];
 
-  handleMouseOver = (index, area) => {
-    const content = this.popUp(area);
+  popupData = (area) => {    
+    return (
+      <a href="javascript:void(0);" onClick={() => this.handlePopUpClick(area) }>{area.name}</a>
+    );
+  }
+  
+  handlePopUpClick = (area) => {
+    const lat = area.location[0],
+      long = area.location[1];
 
-    this.markers[index].leafletElement
-      .bindPopup(content)
-      .openPopup();
-  };
-
-  popupData = () => (
-    <p>This is the data</p>
-  );
+    this.props.getWeatherData(lat, long);
+  }
+    
 
   renderMarkers = () => {
     const { selectedState } = this.props;
@@ -36,23 +46,21 @@ export class WeatherMap extends Component {
     if (selectedState && selectedState.properties.climbingAreas) {
       return selectedState.properties.climbingAreas.map((area, index) => (
         <Marker
-          // title={area.name}
           key={`marker-${area.name}`}
           ref={(ref) => { this.markers[index] = ref; }}
           position={area.location}
           onBlur
           onFocus
         >
-          <Tooltip permanent>
-            <span>{area.name}</span>
-          </Tooltip>
-          <Popup>
-            {this.popupData()}
+          <Popup
+            autoClose={false}
+            closeOnClick={false}
+          >
+            {this.popupData(area)}
           </Popup>
         </Marker>
       ));
     }
-    return (null);
   }
 
   showSelectedState = (feature) => {

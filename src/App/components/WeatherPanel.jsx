@@ -99,15 +99,28 @@ const testWeatherData = [
 ];
 
 class WeatherPanel extends Component {
-  renderWeatherItems = (weatherData) =>
-    weatherData.map((data, index) =>
-      <WeatherItem data={data} index={index} />);
+  mapDataToPanels = (data) => {
+    if (data) {
+      return data.map((itemData, index) =>
+        <WeatherItem data={itemData} index={index} />);
+    }
+  }
 
   render() {
+    const { selectedState, selectedClimbingArea, statesData } = this.props;
+    let dataToRender; 
+    if (selectedState && !selectedClimbingArea) {
+      const state = statesData.find(state => state.properties.name === selectedState.properties.name);
+      const climbingAreas = state.properties.climbingAreas;
+      dataToRender = climbingAreas;
+    } 
+    // TODO: wire with actual weather data
+    // dataToRender = some data returned from API
+
     return (
       <div style={componentStyles.panelContainer}>
         <div style={componentStyles.panelWrapper}>
-          {this.renderWeatherItems(testWeatherData)}
+          {this.mapDataToPanels(dataToRender)}
         </div>
       </div>
     );

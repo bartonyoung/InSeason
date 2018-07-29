@@ -23,10 +23,11 @@ const componentStyles = {
 class App extends PureComponent {
   state = {
     selectedState: null,
-    mapCenter: [39.8283, -98.5795],
-    zoomLevel: 3.75,
+    selectedClimbingArea: null,
     weatherData: null,
     error: null,
+    mapCenter: [39.8283, -98.5795],
+    zoomLevel: 3.75,
   };
 
   getStateData = (selectedState) => {
@@ -40,6 +41,12 @@ class App extends PureComponent {
 
     return foundState;
   }
+
+  setSelectedClimbingArea = (area) => {
+    this.setState({
+      selectedClimbingArea: area.name  
+    })
+  };
 
   getWeatherData = async (lat, lon, duration) => {
     // fetchWeatherData(lat, lon, duration)
@@ -87,7 +94,11 @@ class App extends PureComponent {
             statesData={this.props.statesData}
             getWeatherData={this.getWeatherData}
           />
-          <WeatherPanel />
+          <WeatherPanel 
+            selectedState={this.state.selectedState}
+            selectedClimbingArea={this.state.selectedClimbingArea}
+            statesData={this.props.statesData.features}
+          />
         </div>
       </div>
     );

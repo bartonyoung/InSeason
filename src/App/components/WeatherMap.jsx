@@ -36,7 +36,8 @@ export class WeatherMap extends Component {
     const lat = area.location[0],
       long = area.location[1];
 
-    this.props.getWeatherData(lat, long);
+    this.props.setSelectedClimbingArea(area);
+    this.props.getWeatherData(lat, long, 5);
   }
     
 

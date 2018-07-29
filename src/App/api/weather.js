@@ -9,7 +9,7 @@ const fetchWeatherData = async (lat, lon, duration) => {
   //     console.log(weatherData);
   //   })
   //   .catch(err => console.error(err));
-  const url = `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${weatherKey}`;
+  const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=${duration}&APPID=${weatherKey}`;
   return fetch(url)
     .then((response) => {
       const result = response.json();

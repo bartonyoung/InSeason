@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import { CustomMarker as Marker } from '../components/Marker';
+// import { CustomMarker as Marker } from '../components/Marker';
 import { 
   Map, 
   TileLayer, 
   GeoJSON, 
-  // Marker, 
+  Marker, 
   Popup, 
   // Tooltip 
 } from 'react-leaflet';

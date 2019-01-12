@@ -64,9 +64,11 @@ class App extends PureComponent {
     const selectedState = this.getStateData(stateName);
 
     this.setState({
-      selectedState,
+      // selectedState,
       zoomLevel: selectedState ? 6 : 3.75,
       mapCenter: selectedState ? selectedState.properties.mapCenter : [39.8283, -98.5795],
+    }, () => {
+      this.setState({ selectedState });
     });
   }
 

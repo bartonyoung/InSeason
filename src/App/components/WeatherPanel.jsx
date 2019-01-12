@@ -18,13 +18,14 @@ const componentStyles = {
   panelWrapper: {
     display: 'flex',
     border: '1px solid red',
-    justifyContent: 'space-between',
+    flexDirection: 'column',
+    // justifyContent: 'space-between',
     height: '100%',
     width: '100%',
     flexGrow: '1',
     // margin: '15px',
     // padding: '15px',
-    flexWrap: 'wrap',
+    // flexWrap: 'wrap',
     overflow: 'scroll'
   },
 };

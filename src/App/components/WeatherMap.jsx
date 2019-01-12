@@ -40,6 +40,12 @@ export class WeatherMap extends Component {
     this.props.getWeatherData(lat, long, 5);
   }
     
+  renderMapStyles = ({ wide }) => {
+    return {
+      ...componentStyles.mapStyles,
+      width: wide ? '100%' : '50%'
+    };
+  }
 
   renderMarkers = () => {
     const { selectedState } = this.props;
@@ -76,8 +82,10 @@ export class WeatherMap extends Component {
   render() {
     const { mapCenter, zoomLevel, selectedState } = this.props;
     const name = selectedState !== null ? selectedState.properties.name : 'all';
+    const wide = selectedState ? false : true;
+
     return (
-      <div style={componentStyles.mapStyles}>
+      <div style={this.renderMapStyles({ wide })}>
         <Map
           ref={this.handleRef}
           center={mapCenter}

@@ -27,7 +27,7 @@ class App extends PureComponent {
     weatherData: null,
     error: null,
     mapCenter: [39.8283, -98.5795],
-    zoomLevel: 3.75,
+    zoomLevel: 4.5,
   };
 
   getStateData = (selectedState) => {
@@ -64,14 +64,24 @@ class App extends PureComponent {
     const selectedState = this.getStateData(stateName);
 
     this.setState({
-      // selectedState,
-      zoomLevel: selectedState ? 6 : 3.75,
+      selectedState,
+      zoomLevel: selectedState ? 6 : 4.5,
       mapCenter: selectedState ? selectedState.properties.mapCenter : [39.8283, -98.5795],
-    }, () => {
-      this.setState({ selectedState });
     });
   }
 
+  renderWeatherPanel = () => {
+    return this.state.selectedState ?
+      (
+        <WeatherPanel 
+            selectedState={this.state.selectedState}
+            selectedClimbingArea={this.state.selectedClimbingArea}
+            statesData={this.props.statesData.features}
+          />
+      )
+      :
+      null
+  }
 
   render() {
     return (
@@ -96,11 +106,9 @@ class App extends PureComponent {
             statesData={this.props.statesData}
             getWeatherData={this.getWeatherData}
           />
-          <WeatherPanel 
-            selectedState={this.state.selectedState}
-            selectedClimbingArea={this.state.selectedClimbingArea}
-            statesData={this.props.statesData.features}
-          />
+          {
+            this.renderWeatherPanel()
+          }
         </div>
       </div>
     );

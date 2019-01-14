@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { PropTypes } from 'prop-types';
 import { WeatherMap } from './WeatherMap';
 import NavBar from './NavBar';
-import WeatherPanel from './WeatherPanel';
+import InfoPanel from './InfoPanel';
 import fetchWeatherData from '../api/weather';
 
 const componentStyles = {
@@ -42,11 +42,11 @@ class App extends PureComponent {
     return foundState;
   }
 
-  setSelectedClimbingArea = (area) => {
-    this.setState({
-      selectedClimbingArea: area.name  
-    })
-  };
+  // setSelectedClimbingArea = (area) => {
+  //   this.setState({
+  //     selectedClimbingArea: area.name  
+  //   })
+  // };
 
   getWeatherData = async (lat, lon, duration) => {
     // fetchWeatherData(lat, lon, duration)
@@ -70,12 +70,17 @@ class App extends PureComponent {
     });
   }
 
-  renderWeatherPanel = () => {
+  handleWeatherItemClick = (area) => {
+    this.setState({ selectedClimbingArea: area });
+  }
+
+  renderInfoPanel = () => {
     return this.state.selectedState ?
       (
-        <WeatherPanel 
+        <InfoPanel 
             selectedState={this.state.selectedState}
             selectedClimbingArea={this.state.selectedClimbingArea}
+            handleWeatherItemClick={this.handleWeatherItemClick}
             statesData={this.props.statesData.features}
           />
       )
@@ -107,7 +112,7 @@ class App extends PureComponent {
             getWeatherData={this.getWeatherData}
           />
           {
-            this.renderWeatherPanel()
+            this.renderInfoPanel()
           }
         </div>
       </div>

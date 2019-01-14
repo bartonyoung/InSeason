@@ -99,33 +99,48 @@ const testWeatherData = [
   },
 ];
 
-class WeatherPanel extends Component {
+class InfoPanel extends Component {
   mapDataToPanels = (data) => {
+    const { handleWeatherItemClick } = this.props;
     if (data) {
       return data.map((itemData, index) =>
-        <WeatherItem data={itemData} index={index} />);
+        <WeatherItem data={itemData} index={index} handleWeatherItemClick={handleWeatherItemClick}/>);
     }
+  }
+
+  renderAreaInfo = (area) => {
+    return (
+      <div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {area.name}
+      </div>
+    );
+  }
+
+  handleWeatherItemClick = () => {
+    this.props.handleWeatherItemClick();
   }
 
   render() {
     const { selectedState, selectedClimbingArea, statesData } = this.props;
-    let dataToRender; 
+    let content;
     if (selectedState && !selectedClimbingArea) {
-      const state = statesData.find(state => state.properties.name === selectedState.properties.name);
-      const climbingAreas = state.properties.climbingAreas;
-      dataToRender = climbingAreas;
-    } 
+      const currentState = statesData.find(state => state.properties.name === selectedState.properties.name);
+      const climbingAreas = currentState.properties.climbingAreas;
+      content = this.mapDataToPanels(climbingAreas);
+    } else if (selectedClimbingArea) {
+      content = this.renderAreaInfo(selectedClimbingArea);
+    }
     // TODO: wire with actual weather data
     // dataToRender = some data returned from API
 
     return (
       <div style={componentStyles.panelContainer}>
         <div style={componentStyles.panelWrapper}>
-          {this.mapDataToPanels(dataToRender)}
+          {content}
         </div>
       </div>
     );
   }
 }
 
-export default WeatherPanel;
+export default InfoPanel;

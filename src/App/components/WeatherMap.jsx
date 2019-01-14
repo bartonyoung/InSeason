@@ -18,7 +18,7 @@ const componentStyles = {
     border: '1px solid red',
     height: '100%',
     // flexGrow: 1,
-    width: '50%',
+    width: '100%',
   },
 };
 
@@ -40,34 +40,37 @@ export class WeatherMap extends Component {
     this.props.getWeatherData(lat, long, 5);
   }
     
-  renderMapStyles = ({ wide }) => {
-    return {
-      ...componentStyles.mapStyles,
-      width: wide ? '100%' : '50%'
-    };
+  getAllClimbingAreas = (statesData) => {
+    const dataArr = statesData.features.filter((f) => {
+      if (f.properties.climbingAreas) {
+        return f.properties.climbingAreas;
+      }
+    });
+
+    return dataArr.map((p) => p.properties.climbingAreas).flat();
   }
 
   renderMarkers = () => {
-    const { selectedState } = this.props;
-
-    if (selectedState && selectedState.properties.climbingAreas) {
-      return selectedState.properties.climbingAreas.map((area, index) => (
-        <Marker
-          key={`marker-${area.name}`}
-          ref={(ref) => { this.markers[index] = ref; }}
-          position={area.location}
-          onBlur
-          onFocus
+    const { selectedState, statesData } = this.props;
+    const climbingAreas = selectedState ? selectedState.properties.climbingAreas : this.getAllClimbingAreas(statesData);
+      
+    
+    return climbingAreas.map((area, index) => (
+      <Marker
+        key={`marker-${area.name}`}
+        ref={(ref) => { this.markers[index] = ref; }}
+        position={area.location}
+        onBlur
+        onFocus
+      >
+        <Popup
+          autoClose={false}
+          closeOnClick={false}
         >
-          <Popup
-            autoClose={false}
-            closeOnClick={false}
-          >
-            {this.popupData(area)}
-          </Popup>
-        </Marker>
-      ));
-    }
+          {this.popupData(area)}
+        </Popup>
+      </Marker>
+    ));
   }
 
   showSelectedState = (feature) => {
@@ -85,7 +88,7 @@ export class WeatherMap extends Component {
     const wide = selectedState ? false : true;
 
     return (
-      <div style={this.renderMapStyles({ wide })}>
+      <div style={componentStyles.mapStyles}>
         <Map
           ref={this.handleRef}
           center={mapCenter}

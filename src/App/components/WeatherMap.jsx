@@ -64,7 +64,7 @@ export class WeatherMap extends Component {
         onFocus
       >
         <Popup
-          autoClose={false}
+          autoClose={true}
           closeOnClick={false}
         >
           {this.popupData(area)}
@@ -73,7 +73,7 @@ export class WeatherMap extends Component {
     ));
   }
 
-  showSelectedState = (feature) => {
+  showStateOutline = (feature) => {
     const state = this.props.selectedState !== null && feature.properties.name === this.props.selectedState.properties.name;
     return state;
   }
@@ -102,7 +102,7 @@ export class WeatherMap extends Component {
           <GeoJSON
             key={name}
             data={this.props.statesData}
-            filter={this.showSelectedState}
+            filter={this.showStateOutline}
           />
           {
             this.renderMarkers()

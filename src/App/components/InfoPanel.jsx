@@ -101,23 +101,24 @@ const testWeatherData = [
 
 class InfoPanel extends Component {
   mapDataToPanels = (data) => {
-    const { handleWeatherItemClick } = this.props;
+    const { setSelectedClimbingArea } = this.props;
     if (data) {
       return data.map((itemData, index) =>
-        <WeatherItem data={itemData} index={index} handleWeatherItemClick={handleWeatherItemClick}/>);
+        <WeatherItem data={itemData} index={index} handleWeatherItemClick={setSelectedClimbingArea}/>);
     }
   }
 
   renderAreaInfo = (area) => {
     return (
       <div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p onClick={this.closeAreaInfo} style={{ hover: 'pointer' }}>Close</p>
         {area.name}
       </div>
     );
   }
 
-  handleWeatherItemClick = () => {
-    this.props.handleWeatherItemClick();
+  closeAreaInfo = () => {
+    this.props.setSelectedClimbingArea(null);
   }
 
   render() {

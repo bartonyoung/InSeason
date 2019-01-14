@@ -42,11 +42,11 @@ class App extends PureComponent {
     return foundState;
   }
 
-  // setSelectedClimbingArea = (area) => {
-  //   this.setState({
-  //     selectedClimbingArea: area.name  
-  //   })
-  // };
+  setSelectedClimbingArea = (area) => {
+    this.setState({
+      selectedClimbingArea: area
+    })
+  };
 
   getWeatherData = async (lat, lon, duration) => {
     // fetchWeatherData(lat, lon, duration)
@@ -65,22 +65,19 @@ class App extends PureComponent {
 
     this.setState({
       selectedState,
+      selectedClimbingArea: null,
       zoomLevel: selectedState ? 6 : 4.5,
       mapCenter: selectedState ? selectedState.properties.mapCenter : [39.8283, -98.5795],
     });
   }
 
-  handleWeatherItemClick = (area) => {
-    this.setState({ selectedClimbingArea: area });
-  }
-
   renderInfoPanel = () => {
-    return this.state.selectedState ?
+    return this.state.selectedState || this.state.selectedClimbingArea ?
       (
         <InfoPanel 
             selectedState={this.state.selectedState}
             selectedClimbingArea={this.state.selectedClimbingArea}
-            handleWeatherItemClick={this.handleWeatherItemClick}
+            setSelectedClimbingArea={this.setSelectedClimbingArea}
             statesData={this.props.statesData.features}
           />
       )
@@ -107,6 +104,7 @@ class App extends PureComponent {
             key={this.state.selectedState}
             mapCenter={this.state.mapCenter}
             zoomLevel={this.state.zoomLevel}
+            setSelectedClimbingArea={this.setSelectedClimbingArea}
             selectedState={this.state.selectedState}
             statesData={this.props.statesData}
             getWeatherData={this.getWeatherData}
